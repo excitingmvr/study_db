@@ -1,9 +1,28 @@
+
+
 select
 	a.ifmmSeq
     , a.ifmmAdminNy
     , a.ifmmDormancyNy
 	, a.ifmmName
 	, a.ifmmId
+    , a.ifmmPwdModDate
+    , a.ifmmgenderCd
+    ,(select ifcdName from infrCode where ifcdSeq = a.ifmmgenderCd) as ifmmgenderName
+    ,(
+		case
+			when a.ifmmgenderCd = 3 then '남성'
+            when a.ifmmgenderCd = 4 then '여성'
+            when a.ifmmgenderCd = 5 then '기타'
+        end 
+		) as ifmmgenderNameCase 
+    , a.ifmmDob
+    , a.ifmmSavedCd
+    ,(select ifcdName from infrCode where ifcdSeq = a.ifmmSavedCd) as ifmmSavedName
+    , a.ifmmMarriageCd
+    ,(select ifcdName from infrCode where ifcdSeq = a.ifmmMarriageCd) as ifmmMarriageName
+    , a.ifmmMarriageDate
+    , a.ifmmChildrenNum
     , b.ifmaTypeCd
     ,(select ifcdName from infrCode where ifcdSeq = b.ifmaTypeCd) as ifmaTypeName
     , b.ifmaTitle
@@ -13,20 +32,53 @@ select
     , c.ifaoTypeCd
     ,(select ifcdName from infrCode where ifcdSeq = c.ifaoTypeCd) as ifaoTypeName
     , c.ifaoSnsTypeCd
+    , ifnull(c.ifaoSnsTypeCd,"-") as ifaoSnsTypeCdNullCheck
     ,(select ifcdName from infrCode where ifcdSeq = c.ifaoSnsTypeCd) as ifaoSnsTypeName
     , c.ifaoTitle
     , c.ifaoUrl
+    , d.ifmeTypeCd
+    ,(select ifcdName from infrCode where ifcdSeq = d.ifmeTypeCd) as ifmeTypeName
+    , d.ifmeEmailFull
+    , e.ifjqQuestionCd
+    ,(select ifcdName from infrCode where ifcdSeq = e.ifjqQuestionCd) as ifjqQuestionName
+    , e.ifjqAnswer
+    , f.ifnaSeq
+    , g.ifnaName
+    , h.ifmpTypeCd
+    ,(select ifcdName from infrCode where ifcdSeq = h.ifmpTypeCd) as ifmpTypeName
+    , h.ifmpDeviceCd
+    ,(select ifcdName from infrCode where ifcdSeq = h.ifmpDeviceCd) as ifmpDeviceName
+    , h.ifmpTelecomCd
+    ,(select ifcdName from infrCode where ifcdSeq = h.ifmpTelecomCd) as ifmpTelecomName
+    , h.ifmpNumber
+    , concat(substring(h.ifmpNumber,1,3),"-",substring(h.ifmpNumber,4,4),"-",substring(h.ifmpNumber,7,4)) as ifmpTelecomNameWithDash
+    , ifnull(c.ifaoSnsTypeCd,"-") as ifaoSnsTypeCdNullCheck
 from 
 	infrMember a
 	left join infrMemberAddress b on b.ifmaDelNy = 0 and b.ifmaDefaultNy = 1 and b.ifmmSeq = a.ifmmSeq
     left join infrMemberAddressOnline c on c.ifaoDelNy = 0 and c.ifaoDefaultNy = 1 and c.ifmmSeq = a.ifmmSeq
+    left join infrMemberEmail d on d.ifmeDelNy = 0 and d.ifmeDefaultNy = 1 and d.ifmmSeq = a.ifmmSeq
+    left join infrMemberJoinQna e on e.ifjqDelNy = 0 and e.ifmmSeq = a.ifmmSeq
+    left join infrMemberNationality f on f.ifmnDelNy = 0 and f.ifmnDefaultNy = 1 and f.ifmmSeq = a.ifmmSeq
+		left join infrNationality g on g.ifnaDelNy = 0 and g.ifnaSeq = f.ifnaSeq
+	left join infrMemberPhone h on h.ifmpDelNy = 0 and h.ifmpDefaultNy = 1 and h.ifmmSeq = a.ifmmSeq
 where 1=1
 	and a.ifmmDelNy = 0
-	-- and ifmaTypeCd = 46
-    -- and ifaoSnsTypeCd = 37
+    and a.ifmmId like '%xd%'
+    -- 이름 검색
+    -- 가입일 검색
+    -- 이메일동의 여부
+    -- 이메일 검색
+	-- and b.ifmaTypeCd = 46
+    -- and c.ifaoSnsTypeCd = 37
     -- and a.ifmmSeq = 2
 ;
 
+select * from infrMember;
+select * from infrMemberAddressOnline;
+
+
+use nct;
 
 select
 	a.ifcgSeq 
@@ -47,16 +99,12 @@ where 1=1
 order by 
 	a.ifcgSeq asc
     -- a.ifcgSeq desc
-    -- , b.ifcdOrder
-    , b.ifcdOrder desc
+    , b.ifcdOrder
+    -- , b.ifcdOrder desc
 ;
 
 select * from infrCode 
 ;
 
 
--- ifcdSeq 128 이상으로 커질 수 있다.
--- 
 
-title, context, writter, hit
-reply 
