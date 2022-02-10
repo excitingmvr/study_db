@@ -50,6 +50,7 @@ now(),
 
 select * from infrCode;
 
+use nct;
 select
 a.ifcgSeq
 , a.ifcgName
