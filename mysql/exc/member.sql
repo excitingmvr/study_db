@@ -1,5 +1,6 @@
+use nct;
 
-
+-- 목록
 select
 	a.ifmmSeq
     , a.ifmmAdminNy
@@ -7,15 +8,9 @@ select
 	, a.ifmmName
 	, a.ifmmId
     , a.ifmmPwdModDate
+    , a.ifmmNickname
     , a.ifmmgenderCd
     ,(select ifcdName from infrCode where ifcdSeq = a.ifmmgenderCd) as ifmmgenderName
-    ,(
-		case
-			when a.ifmmgenderCd = 3 then '남성'
-            when a.ifmmgenderCd = 4 then '여성'
-            when a.ifmmgenderCd = 5 then '기타'
-        end 
-		) as ifmmgenderNameCase 
     , a.ifmmDob
     , a.ifmmSavedCd
     ,(select ifcdName from infrCode where ifcdSeq = a.ifmmSavedCd) as ifmmSavedName
@@ -64,7 +59,7 @@ from
 	left join infrMemberPhone h on h.ifmpDelNy = 0 and h.ifmpDefaultNy = 1 and h.ifmmSeq = a.ifmmSeq
 where 1=1
 	and a.ifmmDelNy = 0
-    and a.ifmmId like '%xd%'
+    -- and a.ifmmId like '%xd%'
     -- 이름 검색
     -- 가입일 검색
     -- 이메일동의 여부
@@ -74,9 +69,42 @@ where 1=1
     -- and a.ifmmSeq = 2
 ;
 
-select * from infrMember;
-select * from infrMemberAddressOnline;
 
+-- 아이디 중복 체크
+select 
+	count(ifmmid)
+from 
+	infrMember a
+where 1=1
+	and a.ifmmDelNy = 0
+    and a.ifmmId = 'xdmin'
+;
+
+-- 아이디검색
+select 
+	a.ifmmId
+    , a.ifmmName
+from 
+	infrMember a
+    left join infrMemberEmail b on b.ifmeDelNy = 0 and b.ifmeDefaultNy = 1 and b.ifmmSeq = a.ifmmSeq
+where 1=1
+	and a.ifmmDelNy = 0
+    and a.ifmmName = '전체관리자'
+    and b.ifmeEmailFull = 'asdf@asdf.com'
+;
+
+-- 
+select * from infrMember;
+select * from infrMemberEmail;
+
+
+--     ,(
+-- 		case
+-- 			when a.ifmmgenderCd = 3 then '남성'
+--             when a.ifmmgenderCd = 4 then '여성'
+--             when a.ifmmgenderCd = 5 then '기타'
+--         end 
+-- 		) as ifmmgenderNameCase 
 
 use nct;
 
