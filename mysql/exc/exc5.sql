@@ -1,4 +1,4 @@
-use world;
+use world;  
 
 CREATE TABLE IF NOT EXISTS `world`.`book6` (
   `no` INT UNSIGNED NOT NULL AUTO_INCREMENT,
