@@ -357,3 +357,170 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci
 ;
+
+CREATE TABLE IF NOT EXISTS `nct`.`infrMemberHobby` (
+  `ifmhSeq` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ifmhHobbyCd` BIGINT NOT NULL,
+  `ifmhUseNy` TINYINT NULL,
+  `ifmhOrder` TINYINT NULL,
+  `ifmhDelNy` TINYINT NOT NULL,
+  `regIp` VARCHAR(100) NULL,
+  `regSeq` BIGINT NULL,
+  `regDeviceCd` TINYINT NULL,
+  `regDateTime` DATETIME NULL,
+  `regDateTimeSvr` DATETIME NULL,
+  `modIp` VARCHAR(100) NULL,
+  `modSeq` BIGINT NULL,
+  `modDeviceCd` TINYINT NULL,
+  `modDateTime` DATETIME NULL,
+  `modDateTimeSvr` DATETIME NULL,
+  `ifmmSeq` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ifmhSeq`),
+  INDEX `fk_infrMemberEmail_infrMember1_idx` (`ifmmSeq` ASC) VISIBLE,
+  CONSTRAINT `fk_infrMemberEmail_infrMember110`
+    FOREIGN KEY (`ifmmSeq`)
+    REFERENCES `nct`.`infrMember` (`ifmmSeq`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci
+;
+
+CREATE TABLE IF NOT EXISTS `nct`.`infrMemberJoinQna` (
+  `ifjqSeq` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ifjqQuestionCd` BIGINT NOT NULL,
+  `ifjqAnswer` VARCHAR(50) NOT NULL,
+  `ifjqDelNy` TINYINT NOT NULL,
+  `regIp` VARCHAR(100) NULL,
+  `regSeq` BIGINT NULL,
+  `regDeviceCd` TINYINT NULL,
+  `regDateTime` DATETIME NULL,
+  `regDateTimeSvr` DATETIME NULL,
+  `modIp` VARCHAR(100) NULL,
+  `modSeq` BIGINT NULL,
+  `modDeviceCd` TINYINT NULL,
+  `modDateTime` DATETIME NULL,
+  `modDateTimeSvr` DATETIME NULL,
+  `ifmmSeq` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ifjqSeq`),
+  INDEX `fk_infrMemberEmail_infrMember1_idx` (`ifmmSeq` ASC) VISIBLE,
+  CONSTRAINT `fk_infrMemberEmail_infrMember1100`
+    FOREIGN KEY (`ifmmSeq`)
+    REFERENCES `nct`.`infrMember` (`ifmmSeq`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci
+;
+
+CREATE TABLE IF NOT EXISTS `nct`.`infrMemberAddress` (
+  `ifmaSeq` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ifmaDefaultNy` TINYINT NOT NULL,
+  `ifmaTypeCd` BIGINT NULL,
+  `ifmaTitle` VARCHAR(100) NULL,
+  `ifmaAddress1` VARCHAR(100) NULL,
+  `ifmaAddress2` VARCHAR(100) NULL,
+  `ifmaZipcode` VARCHAR(50) NULL,
+  `ifmaDelNy` TINYINT NOT NULL,
+  `regIp` VARCHAR(100) NULL,
+  `regSeq` BIGINT NULL,
+  `regDeviceCd` TINYINT NULL,
+  `regDateTime` DATETIME NULL,
+  `regDateTimeSvr` DATETIME NULL,
+  `modIp` VARCHAR(100) NULL,
+  `modSeq` BIGINT NULL,
+  `modDeviceCd` TINYINT NULL,
+  `modDateTime` DATETIME NULL,
+  `modDateTimeSvr` DATETIME NULL,
+  `ifmmSeq` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ifmaSeq`),
+  INDEX `fk_infrMemberEmail_infrMember1_idx` (`ifmmSeq` ASC) VISIBLE,
+  CONSTRAINT `fk_infrMemberEmail_infrMember11`
+    FOREIGN KEY (`ifmmSeq`)
+    REFERENCES `nct`.`infrMember` (`ifmmSeq`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci
+;
+
+CREATE TABLE IF NOT EXISTS `nct`.`infrNationality` (
+  `ifnaSeq` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ifnaName` VARCHAR(50) NULL,
+  `ifnaNameKor` VARCHAR(50) NULL,
+  `ifnaNameEng` VARCHAR(50) NULL,
+  `ifnaCode2Char` CHAR(2) NULL,
+  `ifnaCode3Char` CHAR(3) NULL,
+  `ifnaUseNy` TINYINT NULL,
+  `ifnaOrder` TINYINT NULL,
+  `ifnaDesc` VARCHAR(255) NULL,
+  `ifnaDelNy` TINYINT NOT NULL,
+  `regIp` VARCHAR(100) NULL,
+  `regSeq` BIGINT NULL,
+  `regDeviceCd` TINYINT NULL,
+  `regDateTime` DATETIME NULL,
+  `regDateTimeSvr` DATETIME NULL,
+  `modIp` VARCHAR(100) NULL,
+  `modSeq` BIGINT NULL,
+  `modDeviceCd` TINYINT NULL,
+  `modDateTime` DATETIME NULL,
+  `modDateTimeSvr` DATETIME NULL,
+  PRIMARY KEY (`ifnaSeq`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci
+;
+
+CREATE TABLE IF NOT EXISTS `nct`.`infrMemberNationality` (
+  `ifmnSeq` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ifmnDefaultNy` TINYINT NOT NULL,
+  `ifmnDelNy` TINYINT NOT NULL,
+  `regIp` VARCHAR(100) NULL,
+  `regSeq` BIGINT NULL,
+  `regDeviceCd` TINYINT NULL,
+  `regDateTime` DATETIME NULL,
+  `regDateTimeSvr` DATETIME NULL,
+  `modIp` VARCHAR(100) NULL,
+  `modSeq` BIGINT NULL,
+  `modDeviceCd` TINYINT NULL,
+  `modDateTime` DATETIME NULL,
+  `modDateTimeSvr` DATETIME NULL,
+  `ifmmSeq` BIGINT UNSIGNED NOT NULL,
+  `ifnaSeq` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ifmnSeq`),
+  INDEX `fk_infrMemberNationality_infrMember1_idx` (`ifmmSeq` ASC) VISIBLE,
+  INDEX `fk_infrMemberNationality_infrNationality1_idx` (`ifnaSeq` ASC) VISIBLE,
+  CONSTRAINT `fk_infrMemberNationality_infrMember1`
+    FOREIGN KEY (`ifmmSeq`)
+    REFERENCES `nct`.`infrMember` (`ifmmSeq`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_infrMemberNationality_infrNationality1`
+    FOREIGN KEY (`ifnaSeq`)
+    REFERENCES `nct`.`infrNationality` (`ifnaSeq`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci
+;
+
+CREATE TABLE IF NOT EXISTS `nct`.`infrLogLogin` (
+  `iflgSeq` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ifmmId` VARCHAR(50) NULL,
+  `ifmmSeq` BIGINT NULL,
+  `iflgResultNy` TINYINT NULL,
+  `iflgDelNy` TINYINT NOT NULL,
+  `regIp` VARCHAR(100) NULL,
+  `regSeq` BIGINT NULL,
+  `regDeviceCd` TINYINT NULL,
+  `regDateTime` DATETIME NULL,
+  `regDateTimeSvr` DATETIME NULL,
+  PRIMARY KEY (`iflgSeq`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci
+;
